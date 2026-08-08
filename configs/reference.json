@@ -1,0 +1,59 @@
+{
+  "evaluation": {
+    "infeasible_control_count": 100,
+    "test_evaluation_budget": 3,
+    "test_per_family": 500,
+    "validation_per_family": 200
+  },
+  "integration": {
+    "action_hold": "zero_order",
+    "dt_policy_s": 0.1,
+    "max_steps": 400,
+    "scheme": "explicit_euler",
+    "substeps": 5
+  },
+  "learning": {
+    "algorithm": "SAC",
+    "discount": 0.995
+  },
+  "project": {
+    "single_scenario_conditioned_policy": true,
+    "task_families": [
+      "parallel",
+      "reverse_bay"
+    ]
+  },
+  "reverse_bay_reference": {
+    "aisle_width_m": 6.0,
+    "bay_depth_m": 5.3,
+    "bay_width_m": 2.5,
+    "end_clearance_m": 0.3,
+    "free_mouth_width_m": 2.5,
+    "goal_rear_axle_pose": [
+      0.0,
+      -3.9,
+      1.5707963267948966
+    ]
+  },
+  "schema_version": 1,
+  "task": {
+    "settle_policy_steps": 5,
+    "terminal_priority": [
+      "collision",
+      "out_of_bounds",
+      "success",
+      "timeout"
+    ]
+  },
+  "vehicle": {
+    "acceleration_limit_mps2": 1.5,
+    "front_overhang_m": 0.9,
+    "length_m": 4.7,
+    "rear_overhang_m": 1.1,
+    "speed_limit_mps": 1.5,
+    "steering_limit_rad": 0.6,
+    "steering_rate_limit_radps": 0.6,
+    "wheelbase_m": 2.7,
+    "width_m": 1.85
+  }
+}
