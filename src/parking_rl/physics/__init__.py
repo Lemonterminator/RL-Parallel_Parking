@@ -1,6 +1,18 @@
 """Deterministic physics primitives for the parking simulator."""
 
 from parking_rl.physics.action_scaling import scale_action
+from parking_rl.physics.bay_geometry import (
+    BayBoundary,
+    BayTurnRadii,
+    ContainmentBound,
+    InfeasibleBayGeometry,
+    SweepExtents,
+    bay_turn_radii,
+    explicit_reverse_arc_sweep,
+    required_aisle_for_heading,
+    single_cut_boundary,
+    static_containment_bound,
+)
 from parking_rl.physics.ccd import (
     SweepConfig,
     SweepResult,
@@ -33,31 +45,59 @@ from parking_rl.physics.geometry import (
     vehicle_front_extent_m,
     vehicle_obb,
 )
+from parking_rl.physics.parking_geometry import (
+    TwoArcResult,
+    ideal_two_arc_longitudinal_m,
+    integrate_ideal_two_arc,
+)
+from parking_rl.physics.success import (
+    SuccessTolerance,
+    advance_settle,
+    modulo_pi_heading_match,
+    success_candidate,
+)
 
 __all__ = [
     "OBB",
+    "BayBoundary",
+    "BayTurnRadii",
+    "ContainmentBound",
     "DynamicsConfig",
+    "InfeasibleBayGeometry",
     "Point2",
     "PolicyStepTrace",
+    "SuccessTolerance",
     "SweepConfig",
+    "SweepExtents",
     "SweepResult",
+    "TwoArcResult",
     "advance_actuator",
+    "advance_settle",
+    "bay_turn_radii",
     "bounded_sweep_poses",
     "clamp_control",
+    "explicit_reverse_arc_sweep",
+    "ideal_two_arc_longitudinal_m",
+    "integrate_ideal_two_arc",
     "integrate_substep",
     "interpolate_pose",
     "minimum_turn_radius_m",
+    "modulo_pi_heading_match",
     "obb_corners",
     "obb_signed_distance",
     "object_obb",
     "pose_motion_bound_m",
+    "required_aisle_for_heading",
     "sat_face_normal_gap",
     "sat_overlap",
     "sat_penetration_depth",
     "scale_action",
+    "single_cut_boundary",
     "solid_obstacles",
     "state_collides",
+    "static_containment_bound",
     "step_world_state",
+    "success_candidate",
     "sweep_collides",
     "vehicle_farthest_corner_m",
     "vehicle_front_extent_m",
