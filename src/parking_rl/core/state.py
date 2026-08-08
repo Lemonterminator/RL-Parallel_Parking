@@ -231,8 +231,7 @@ class ActuatorState:
         if self.latency_steps > len(pending_commands):
             raise ValueError("latency_steps must not exceed command-buffer capacity")
         if any(
-            command != ZERO_NORMALIZED_ACTION
-            for command in pending_commands[self.latency_steps :]
+            command != ZERO_NORMALIZED_ACTION for command in pending_commands[self.latency_steps :]
         ):
             raise ValueError("inactive command-buffer padding must contain only zero actions")
 
@@ -274,8 +273,7 @@ class WorldState:
             raise ValueError("objects must have exactly the StaticWorld object IDs")
         static_by_id = {item.id: item for item in self.static_world.objects}
         if any(
-            (item.kind, item.role)
-            != (static_by_id[item.id].kind, static_by_id[item.id].role)
+            (item.kind, item.role) != (static_by_id[item.id].kind, static_by_id[item.id].role)
             for item in objects
         ):
             raise ValueError("dynamic object kind and role must match StaticWorld")

@@ -29,6 +29,7 @@ jobs:
         run: pytest
       - name: Verify governance artifacts
         run: |
+          parking-governance config-validate configs/reference.json
           parking-governance config-verify configs/reference.hash.json
           parking-governance exit-validate contracts/exit_registry.json
           parking-governance ledger-validate governance/test_usage.jsonl

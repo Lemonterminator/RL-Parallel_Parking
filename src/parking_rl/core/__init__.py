@@ -5,6 +5,13 @@ from parking_rl.core.actions import (
     NormalizedAction,
     PhysicalControl,
 )
+from parking_rl.core.config import ConfigSchemaError, ReferenceConfig, load_reference_config
+from parking_rl.core.fingerprint import (
+    FingerprintError,
+    canonical_data,
+    canonical_json_bytes,
+    sha256_fingerprint,
+)
 from parking_rl.core.frames import (
     GoalFrameError,
     GoalRearAxleWorldPose,
@@ -17,7 +24,29 @@ from parking_rl.core.frames import (
     rear_axle_world_to_goal_error,
     wrap_angle,
 )
-from parking_rl.core.outcomes import EpisodeEndReason, StepBoundary, resolve_end_reason
+from parking_rl.core.observation import (
+    Observation,
+    ObservationField,
+    ObservationLayout,
+    ObservationRung,
+    ObserverConfig,
+)
+from parking_rl.core.outcomes import (
+    EpisodeEndReason,
+    EpisodeRuntime,
+    StepBoundary,
+    resolve_end_reason,
+)
+from parking_rl.core.scenario import (
+    BayDifficulty,
+    FrozenScenarioRecord,
+    GeneratorProvenance,
+    OracleAnnotation,
+    OracleSource,
+    ParallelDifficulty,
+    Scenario,
+    TaskFamily,
+)
 from parking_rl.core.state import (
     ActuatorState,
     Bounds2D,
@@ -34,9 +63,15 @@ from parking_rl.core.state import (
 __all__ = [
     "ZERO_NORMALIZED_ACTION",
     "ActuatorState",
+    "BayDifficulty",
     "Bounds2D",
+    "ConfigSchemaError",
     "EgoState",
     "EpisodeEndReason",
+    "EpisodeRuntime",
+    "FingerprintError",
+    "FrozenScenarioRecord",
+    "GeneratorProvenance",
     "GoalFrameError",
     "GoalRearAxleWorldPose",
     "NormalizedAction",
@@ -45,17 +80,32 @@ __all__ = [
     "ObjectKind",
     "ObjectRole",
     "ObjectState",
+    "Observation",
+    "ObservationField",
+    "ObservationLayout",
+    "ObservationRung",
+    "ObserverConfig",
+    "OracleAnnotation",
+    "OracleSource",
+    "ParallelDifficulty",
     "PhysicalControl",
     "RearAxleWorldPose",
+    "ReferenceConfig",
+    "Scenario",
     "SettleProgress",
     "StaticWorld",
     "StepBoundary",
+    "TaskFamily",
     "VehicleSpec",
     "WorldState",
+    "canonical_data",
+    "canonical_json_bytes",
     "goal_error_to_rear_axle_world",
+    "load_reference_config",
     "object_ego_to_world",
     "object_world_to_ego",
     "rear_axle_world_to_goal_error",
     "resolve_end_reason",
+    "sha256_fingerprint",
     "wrap_angle",
 ]

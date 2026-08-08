@@ -1,6 +1,11 @@
 import pytest
 
-from parking_rl.core.outcomes import EpisodeEndReason, StepBoundary, resolve_end_reason
+from parking_rl.core.outcomes import (
+    EpisodeEndReason,
+    EpisodeRuntime,
+    StepBoundary,
+    resolve_end_reason,
+)
 
 
 @pytest.mark.parametrize(
@@ -63,14 +68,41 @@ def test_end_reason_uses_safety_first_priority(
     conditions: tuple[bool, bool, bool, bool],
     expected: EpisodeEndReason,
 ) -> None:
-    assert resolve_end_reason(
-        collision=conditions[0],
-        out_of_bounds=conditions[1],
-        success=conditions[2],
-        time_limit=conditions[3],
-    ) is expected
+    assert (
+        resolve_end_reason(
+            collision=conditions[0],
+            out_of_bounds=conditions[1],
+            success=conditions[2],
+            time_limit=conditions[3],
+        )
+        is expected
+    )
 
 
 def test_end_reason_rejects_numeric_truthiness() -> None:
     with pytest.raises(TypeError, match="must be bool"):
         resolve_end_reason(collision=1, out_of_bounds=False, success=False, time_limit=False)  # type: ignore[arg-type]
+
+
+def test_episode_runtime_owns_clock_and_rng_outside_world_state():
+    before_limit = EpisodeRuntime("episode-7", step_index=399, max_steps=400, rng_seed=123)
+    at_limit = EpisodeRuntime("episode-7", step_index=400, max_steps=400, rng_seed=123)
+    assert not before_limit.time_limit_reached
+    assert at_limit.time_limit_reached
+
+
+@pytest.mark.parametrize(
+    "changes",
+    [
+        {"step_index": True},
+        {"step_index": -1},
+        {"max_steps": 0},
+        {"step_index": 401},
+        {"rng_seed": -1},
+    ],
+)
+def test_episode_runtime_rejects_invalid_clock_or_rng(changes):
+    values = {"episode_id": "episode-7", "step_index": 1, "max_steps": 400, "rng_seed": 2}
+    values.update(changes)
+    with pytest.raises((TypeError, ValueError)):
+        EpisodeRuntime(**values)
