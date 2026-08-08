@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 from collections.abc import Sequence
 
+from parking_rl.core.config import load_reference_config
 from parking_rl.governance.config_hash import (
     config_sha256,
     verify_hash_manifest,
@@ -27,6 +28,11 @@ def _parser() -> argparse.ArgumentParser:
 
     verify_command = commands.add_parser("config-verify", help="verify a config hash manifest")
     verify_command.add_argument("manifest")
+
+    validate_command = commands.add_parser(
+        "config-validate", help="validate resolved config schema"
+    )
+    validate_command.add_argument("config")
 
     exits_command = commands.add_parser("exit-validate", help="validate the EXIT registry")
     exits_command.add_argument("registry")
@@ -53,6 +59,9 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(result)
     elif args.command == "config-verify":
         print(verify_hash_manifest(args.manifest))
+    elif args.command == "config-validate":
+        config = load_reference_config(args.config)
+        print(f"validated resolved config schema v{config.schema_version}")
     elif args.command == "exit-validate":
         print(f"validated {validate_exit_registry(args.registry)} EXIT contracts")
     elif args.command == "ledger-validate":
