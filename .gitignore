@@ -19,3 +19,6 @@ checkpoints/
 data/*
 !data/eval/
 !data/eval/**
+
+# Research PDFs are local reading material and may not be redistributed.
+/docs/*.pdf
