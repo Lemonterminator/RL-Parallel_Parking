@@ -1,0 +1,7 @@
+{
+  "algorithm": "sha256",
+  "canonicalization": "json-sort-keys-utf8-v1",
+  "digest": "15e7ded21eb279ff08ed67a1c26426fc4f44401750a1e7ee428300373b7e18df",
+  "schema_version": 1,
+  "source": "reference.json"
+}
