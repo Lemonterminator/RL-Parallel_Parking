@@ -1,5 +1,5 @@
 {
-  "schema_version": 1,
+  "schema_version": 2,
   "default_status": "planned",
   "groups": [
     {
@@ -157,6 +157,106 @@
       "prerequisites": ["initial_visibility_audit", "o3_arms"]
     }
   },
-  "statuses": {},
-  "tests": {}
+  "statuses": {
+    "EXIT-0.1": "implemented",
+    "EXIT-0.2": "implemented",
+    "EXIT-0.3": "implemented",
+    "EXIT-0.4": "implemented",
+    "EXIT-0.5": "implemented",
+    "EXIT-0.6": "implemented",
+    "EXIT-0.7": "implemented",
+    "EXIT-0.8": "planned",
+    "EXIT-0.9": "implemented",
+    "EXIT-0.10": "implemented",
+    "EXIT-0.11": "planned",
+    "EXIT-0.12": "planned",
+    "EXIT-0.13": "planned",
+    "EXIT-0.14": "planned",
+    "EXIT-0.15": "implemented"
+  },
+  "tests": {
+    "EXIT-0.1": [
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_1_sat_matches_shapely_100k"
+    ],
+    "EXIT-0.2": [
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_2_constant_steering_radius_and_closure"
+    ],
+    "EXIT-0.3": [
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_3_signed_distance_matches_independent_reference_10k"
+    ],
+    "EXIT-0.4": [
+      "tests/physics/test_geometry.py::test_vertex_vertex_distance_is_not_the_sat_gap",
+      "tests/physics/test_geometry.py::test_twenty_degree_vertex_edge_regression_keeps_sat_gap_a_lower_bound"
+    ],
+    "EXIT-0.5": [
+      "tests/physics/test_ccd.py::test_full_lock_reference_motion_factor_locks_rotation_term",
+      "tests/physics/test_ccd.py::test_rotational_tunnelling_through_thin_wall_is_detected",
+      "tests/physics/test_ccd.py::test_perpendicular_translational_tunnelling_is_detected"
+    ],
+    "EXIT-0.6": [
+      "tests/physics/test_geometry.py::test_three_circle_cover_matches_the_analytic_radius",
+      "tests/physics/test_collision_boundary.py::test_collision_termination_path_cannot_import_reward_geometry"
+    ],
+    "EXIT-0.7": [
+      "tests/physics/test_parking_geometry.py::test_two_arc_closed_form_matches_independent_midpoint_integration"
+    ],
+    "EXIT-0.9": [
+      "tests/physics/test_replay.py::test_trace_digest_is_stable_across_independent_processes"
+    ],
+    "EXIT-0.10": [
+      "tests/physics/test_geometry.py::test_exit_0_10_vehicle_footprint_is_placed_from_rear_axle",
+      "tests/physics/test_geometry.py::test_exit_0_10_rotated_vehicle_matches_hand_computed_rear_axle_footprint"
+    ],
+    "EXIT-0.15": [
+      "tests/physics/test_success.py::test_reverse_bay_goal_footprint_has_expected_clearances",
+      "tests/physics/test_success.py::test_success_uses_directed_heading_and_rejects_nose_in"
+    ]
+  },
+  "clause_statuses": {
+    "EXIT-0.14": {
+      "a": "implemented",
+      "b": "implemented",
+      "c": "planned"
+    }
+  },
+  "clause_tests": {
+    "EXIT-0.14": {
+      "a": [
+        "tests/physics/test_bay_geometry.py::test_static_containment_design_table_and_single_cut_bracket",
+        "tests/physics/test_bay_geometry.py::test_static_containment_is_invariant_once_depth_does_not_bind"
+      ],
+      "b": [
+        "tests/physics/test_bay_geometry.py::test_static_containment_design_table_and_single_cut_bracket"
+      ]
+    }
+  },
+  "blocked_evidence": {
+    "EXIT-0.8": {
+      "reason": "The required numerical bisection depends on the Stage-1 single-cusp Hybrid A* planner."
+    },
+    "EXIT-0.11": {
+      "reason": "CI runs a random smoke test and all four saturation corners, but the literal 10^6 sequences x 400 policy steps x 5 substeps stress ledger has not been executed.",
+      "tests": [
+        "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_random_clamp_smoke_and_positive_control",
+        "tests/physics/test_dynamics.py::test_four_corner_saturation_respects_bounds_at_every_substep"
+      ]
+    },
+    "EXIT-0.12": {
+      "reason": "The literal gradient > 0.1 for every error in (0, pi] contradicts any differentiable potential with a minimum at zero; the adopted half-angle potential removes the pi plateau but necessarily tends to zero gradient near its minimum.",
+      "tests": [
+        "tests/reward/test_heading.py::test_half_angle_cost_has_no_pi_plateau",
+        "tests/reward/test_heading.py::test_literal_exit_0_12_threshold_is_contradicted_near_zero"
+      ]
+    },
+    "EXIT-0.13": {
+      "reason": "The literal text clips the sweep to y <= 0 and then requires a positive whole-manoeuvre max_y; it also includes infeasible width/clearance grid cells. Corrected sweep evidence is checked, but the protocol text needs human revision before closure.",
+      "tests": [
+        "tests/physics/test_bay_geometry.py::test_single_cut_design_grid_and_explicit_sweep",
+        "tests/physics/test_bay_geometry.py::test_sweep_positive_control_detects_incursion_when_u_is_too_large"
+      ]
+    },
+    "EXIT-0.14": {
+      "reason": "Clauses (a) and (b) are implemented; clause (c) requires Stage-1 Hybrid A* bisection."
+    }
+  }
 }
