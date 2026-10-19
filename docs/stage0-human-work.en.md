@@ -2,7 +2,7 @@
 
 This checklist was extracted from `stages/PLAN_S0.md`, as organized by Claude. Code and automated tests can only validate a model that has already been written down. The reading, independent derivations, research decisions, and visual judgments below still require human responsibility and cannot be replaced by a passing test suite.
 
-> **Status 2026-10-19**: all nine Section 2 derivations were completed by independent derivation and machine-checked (SymPy/SciPy/Shapely scripts, three with Lean 4 proofs) and agree with the implementation; see `research/stage0-derivations/` and the explanations in `docs/learn/`. The Section 4 animation checks were confirmed by a human. In Section 3, the W_gap, nose-out, CCD naming and steering_gain items adopt the recommended choices, and EXIT-0.12/0.13 are revised in plan v1.5. Still open: Section 1 reading, the Section 3 review of v1.2/v1.3 material and the bay-difficulty oracle, and the evidence for the full EXIT-0.11 stress run.
+> **Status 2026-10-19**: all nine Section 2 derivations were completed by independent derivation and machine-checked (SymPy/SciPy/Shapely scripts, three with Lean 4 proofs) and agree with the implementation; see `research/stage0-derivations/` and the explanations in `docs/learn/`. The Section 4 animation checks were confirmed by a human. In Section 3, the W_gap, nose-out, CCD naming and steering_gain items adopt the recommended choices, and EXIT-0.12/0.13 are revised in plan v1.5. Still open: Section 1 reading, the Section 3 review of v1.2/v1.3 material and the bay-difficulty oracle. The full EXIT-0.11 stress run is done (0 violations, positive control effective); see `governance/evidence/`.
 
 ## 1. Theory Reading
 
@@ -34,7 +34,7 @@ This checklist was extracted from `stages/PLAN_S0.md`, as organized by Claude. C
 - [x] Decide whether `steering_gain` and `steering_offset` apply to the target steering angle, steering rate, or sensor mapping. Stage 0 currently rejects non-default values to avoid silently selecting the wrong semantics.
 - [x] Revise EXIT-0.12. Recommended wording: "No additional stationary points outside the success tolerance, with a lower bound maintained over a specified interval near pi." Do not require a derivative greater than 0.1 over all `(0,pi]`.
 - [x] Revise EXIT-0.13. `max_y` should be measured over the complete sweep, while only the bay-row x extent is clipped to `y<=0`. Infeasible grid entries satisfying `W_gap-2c < w` should explicitly expect `InfeasibleBayGeometry`.
-- [ ] Run the full EXIT-0.11 stress test: `10^6` sequences, 400 policy steps per sequence, and 5 substeps per policy step. Preserve the seed, configuration hash, commit hash, sample count, zero-violation result, and positive-control result. The registry must remain `planned` until this run is complete.
+- [x] Run the full EXIT-0.11 stress test: `10^6` sequences, 400 policy steps per sequence, and 5 substeps per policy step. Preserve the seed, configuration hash, commit hash, sample count, zero-violation result, and positive-control result. The registry must remain `planned` until this run is complete.
 
 ## 4. Manual Animation Acceptance
 

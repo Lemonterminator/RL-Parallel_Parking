@@ -43,10 +43,9 @@ pytest node ID exists.
 
 | Status | EXIT contracts |
 |---|---|
-| Implemented | 0.1–0.7, 0.9, 0.10, 0.12, 0.13, 0.15 |
+| Implemented | 0.1–0.7, 0.9–0.13, 0.15 |
 | Planned: Stage 1 dependency | 0.8; 0.14(c) |
 | Implemented clauses | 0.14(a), 0.14(b) |
-| Planned: full stress evidence required | 0.11 |
 
 EXIT-0.12 and EXIT-0.13 were revised in plan v1.5 (see `PLAN_MACRO.md` appendix): the literal
 v1.2 heading criterion is impossible for any smooth minimum, and the v1.3 sweep criterion clipped
@@ -57,7 +56,8 @@ EXIT-0.11 evidence comes from `parking-governance exit-0-11-stress configs/refer
 drives the production dynamics over 10^6 × 400 × 5 substeps in independently seeded chunks
 (identical results for any worker count on one platform; final-state digests differ across
 platforms at libm ULP level) and includes a real clamp-disabled positive control. CI runs a small
-instance.
+instance. The full run (0 violations in 2×10^9 substeps; the positive control finds 92,150) is
+recorded in [`governance/evidence/`](../governance/evidence/).
 
 Explanations of the model and the parking geometry, with sources, are in [`learn/`](learn/), and
 the independent derivations behind them are in `research/stage0-derivations/`.

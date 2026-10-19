@@ -168,7 +168,7 @@
     "EXIT-0.8": "planned",
     "EXIT-0.9": "implemented",
     "EXIT-0.10": "implemented",
-    "EXIT-0.11": "planned",
+    "EXIT-0.11": "implemented",
     "EXIT-0.12": "implemented",
     "EXIT-0.13": "implemented",
     "EXIT-0.14": "planned",
@@ -207,6 +207,11 @@
       "tests/physics/test_geometry.py::test_exit_0_10_vehicle_footprint_is_placed_from_rear_axle",
       "tests/physics/test_geometry.py::test_exit_0_10_rotated_vehicle_matches_hand_computed_rear_axle_footprint"
     ],
+    "EXIT-0.11": [
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_random_clamp_smoke",
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_stress_harness_and_real_positive_control",
+      "tests/physics/test_dynamics.py::test_four_corner_saturation_respects_bounds_at_every_substep"
+    ],
     "EXIT-0.12": [
       "tests/exit_criteria/test_stage0_exit.py::test_exit_0_12_no_stationary_point_outside_success_and_bounded_slope_near_pi",
       "tests/exit_criteria/test_stage0_exit.py::test_exit_0_12_positive_control_rejects_full_angle_plateau"
@@ -241,14 +246,6 @@
   "blocked_evidence": {
     "EXIT-0.8": {
       "reason": "The required numerical bisection depends on the Stage-1 single-cusp Hybrid A* planner."
-    },
-    "EXIT-0.11": {
-      "reason": "CI runs a random smoke test, all four saturation corners, and a CI-scale run of the stress harness with a real clamp-disabled positive control; the literal 10^6 sequences x 400 policy steps x 5 substeps evidence run (parking-governance exit-0-11-stress) has not been recorded yet.",
-      "tests": [
-        "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_random_clamp_smoke",
-        "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_stress_harness_and_real_positive_control",
-        "tests/physics/test_dynamics.py::test_four_corner_saturation_respects_bounds_at_every_substep"
-      ]
     },
     "EXIT-0.14": {
       "reason": "Clauses (a) and (b) are implemented; clause (c) requires Stage-1 Hybrid A* bisection. Its 4.3519 m upper end is the single-cut boundary with final rear-axle x = -0.2024 m; a centred single cut needs 4.6942 m, so (c) assumes a lateral success tolerance of at least 0.25 m (plan v1.4)."

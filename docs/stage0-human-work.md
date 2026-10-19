@@ -2,7 +2,7 @@
 
 这份清单提取自 Claude 整理的 `stages/PLAN_S0.md`。代码和自动测试只能验证已写下的模型；下面这些阅读、独立推导、研究口径与视觉判断仍需人类负责，不能用“测试通过”替代。
 
-> **2026-10-19 状态**：第 2 节九项手推已由独立推导完成并机器核查（SymPy/SciPy/Shapely 脚本，三项附 Lean 4 证明），与实现逐项一致，材料见 `research/stage0-derivations/`，讲解见 `docs/learn/`。第 4 节动画验收已由人工确认通过。第 3 节中 W_gap、nose-out、CCD 命名、steering_gain 四项按推荐方案采纳，EXIT-0.12/0.13 已按 v1.5 修订。仍待完成：第 1 节文献阅读、第 3 节 v1.2/v1.3 内容审查与 bay 难度 oracle，以及 EXIT-0.11 完整压力测试的证据。
+> **2026-10-19 状态**：第 2 节九项手推已由独立推导完成并机器核查（SymPy/SciPy/Shapely 脚本，三项附 Lean 4 证明），与实现逐项一致，材料见 `research/stage0-derivations/`，讲解见 `docs/learn/`。第 4 节动画验收已由人工确认通过。第 3 节中 W_gap、nose-out、CCD 命名、steering_gain 四项按推荐方案采纳，EXIT-0.12/0.13 已按 v1.5 修订。仍待完成：第 1 节文献阅读、第 3 节 v1.2/v1.3 内容审查与 bay 难度 oracle。EXIT-0.11 完整压力测试已跑完（0 违规，正对照有效），证据见 `governance/evidence/`。
 
 ## 1. 理论阅读
 
@@ -34,7 +34,7 @@
 - [x] 决定 `steering_gain` / `steering_offset` 作用于目标转角、转角速率还是传感器映射。当前 Stage 0 对非默认值直接报错，以避免悄悄选错语义。
 - [x] 修订 EXIT-0.12：建议改成“在 success tolerance 外无额外驻点，并在接近 π 的指定区间保持下界”，不要要求所有 `(0,π]` 的导数都大于 0.1。
 - [x] 修订 EXIT-0.13：`max_y` 应取完整 sweep，只有 bay-row x extent 做 `y<=0` clip；不可行的 `W_gap-2c < w` 网格项应明确期望 `InfeasibleBayGeometry`。
-- [ ] 为 EXIT-0.11 运行完整 `10^6` 条、每条 400 policy steps、每步 5 substeps 的压力测试，并保存 seed、配置 hash、commit hash、样本数、零违规和 positive-control 结果。完成前 registry 必须保持 `planned`。
+- [x] 为 EXIT-0.11 运行完整 `10^6` 条、每条 400 policy steps、每步 5 substeps 的压力测试，并保存 seed、配置 hash、commit hash、样本数、零违规和 positive-control 结果。完成前 registry 必须保持 `planned`。
 
 ## 4. 人工动画验收
 
