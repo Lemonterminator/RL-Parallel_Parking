@@ -15,8 +15,17 @@ from parking_rl.governance.clamp_stress import (
     dynamics_clamps_are_disabled,
     run_stress,
 )
+from parking_rl.physics.bay_geometry import (
+    InfeasibleBayGeometry,
+    explicit_reverse_arc_sweep,
+    single_cut_boundary,
+)
 from parking_rl.physics.dynamics import integrate_substep
 from parking_rl.physics.geometry import OBB, obb_corners, obb_signed_distance, sat_overlap
+from parking_rl.reward.heading import (
+    heading_half_angle_cost,
+    heading_half_angle_gradient_magnitude,
+)
 
 
 def _vehicle() -> VehicleSpec:
@@ -192,3 +201,96 @@ def test_exit_0_11_stress_harness_and_real_positive_control() -> None:
     unclamped, _ = run_stress(spec, vehicle, disable_clamps=True)
     assert sum(unclamped.violations.values()) > 0
     assert not dynamics_clamps_are_disabled()
+
+
+@pytest.mark.parametrize("success_tolerance_rad", [0.01, 0.05, 0.1])
+def test_exit_0_12_no_stationary_point_outside_success_and_bounded_slope_near_pi(
+    success_tolerance_rad: float,
+) -> None:
+    """EXIT-0.12 (v1.4): no stationary point outside the success tolerance on the
+    positive branch, and a left slope of at least cos(eps/2)/2 on [pi - eps, pi]."""
+
+    errors = np.linspace(success_tolerance_rad, math.pi, 200_001)
+    gradients = np.array([heading_half_angle_gradient_magnitude(float(e)) for e in errors])
+    assert np.all(gradients > 0.0)
+    assert np.all(np.diff(gradients) > 0.0)
+
+    eps = math.radians(10.0)
+    near_pi = errors[errors >= math.pi - eps]
+    lower_bound = 0.5 * math.cos(0.5 * eps)
+    assert lower_bound == pytest.approx(0.498097349046, abs=1e-12)
+    assert min(heading_half_angle_gradient_magnitude(float(e)) for e in near_pi) >= lower_bound
+
+    step = 1e-7
+    left_slope = (heading_half_angle_cost(math.pi) - heading_half_angle_cost(math.pi - step)) / step
+    assert left_slope == pytest.approx(0.5, abs=1e-6)
+
+
+def test_exit_0_12_positive_control_rejects_full_angle_plateau() -> None:
+    """The v1.1 form (1 - cos e)/2 has a stationary point at pi and must fail."""
+
+    def plateau_cost(error_rad: float) -> float:
+        return 0.5 * (1.0 - math.cos(error_rad))
+
+    eps = math.radians(10.0)
+    lower_bound = 0.5 * math.cos(0.5 * eps)
+    step = 1e-7
+    slopes = [
+        (plateau_cost(e) - plateau_cost(e - step)) / step
+        for e in np.linspace(math.pi - eps, math.pi, 1_001)
+    ]
+    assert min(slopes) < lower_bound
+
+
+_EXIT_0_13_MOUTHS = (None, 1.95, 2.10, 2.30, 2.50, 2.80, 3.15, 3.50, 4.00)
+_EXIT_0_13_CLEARANCES = (0.0, 0.10, 0.25)
+
+
+@pytest.mark.parametrize("mouth", _EXIT_0_13_MOUTHS)
+@pytest.mark.parametrize("clearance", _EXIT_0_13_CLEARANCES)
+def test_exit_0_13_closed_form_matches_explicit_swept_body(
+    mouth: float | None, clearance: float
+) -> None:
+    """EXIT-0.13 (v1.4): max_y over the whole sweep; x extents of the y <= 0 clip."""
+
+    vehicle = _vehicle()
+    mouth_width = vehicle.width_m if mouth is None else mouth
+    if mouth_width - 2.0 * clearance < vehicle.width_m:
+        with pytest.raises(InfeasibleBayGeometry):
+            single_cut_boundary(vehicle, mouth_width, clearance)
+        return
+
+    boundary = single_cut_boundary(vehicle, mouth_width, clearance)
+    lower_branch = boundary.usable_width_m < (
+        boundary.radii.rear_outer_m - boundary.radii.swept_inner_m
+    )
+    # The lower-branch left extent is set by a corner crossing y = 0, where the
+    # sampled extent converges linearly in the heading step, so it is sampled finer.
+    samples = 200_000 if lower_branch else 20_000
+    sweep = explicit_reverse_arc_sweep(boundary, vehicle, samples=samples)
+    allowed = 0.5 * mouth_width - clearance
+
+    assert sweep.max_y_m == pytest.approx(boundary.radii.front_outer_m - boundary.u_m, abs=1e-8)
+    assert sweep.bay_row_max_x_m == pytest.approx(allowed, abs=1e-5)
+    assert sweep.bay_row_min_x_m == pytest.approx(-allowed, abs=1e-5)
+
+    invalid = explicit_reverse_arc_sweep(boundary.shifted_u(0.02), vehicle, samples=20_000)
+    incursion = max(invalid.bay_row_max_x_m - allowed, -allowed - invalid.bay_row_min_x_m)
+    assert incursion > 0.0
+
+
+def test_exit_0_13_branch_identities() -> None:
+    vehicle = _vehicle()
+    radii = single_cut_boundary(vehicle, 2.5, 0.0).radii
+
+    assert single_cut_boundary(vehicle, vehicle.width_m, 0.0).u_m == pytest.approx(
+        -vehicle.rear_overhang_m, abs=1e-9
+    )
+    seam = single_cut_boundary(vehicle, radii.rear_outer_m - radii.swept_inner_m, 0.0)
+    assert seam.u_m == pytest.approx(0.0, abs=1e-9)
+    wide = single_cut_boundary(vehicle, radii.rear_outer_m, 0.0)
+    assert wide.u_m == pytest.approx(radii.swept_inner_m, abs=1e-9)
+    for clearance in _EXIT_0_13_CLEARANCES:
+        capped = single_cut_boundary(vehicle, 10.0, clearance)
+        approach_flank_y = -capped.u_m + radii.turn_radius_m - 0.5 * vehicle.width_m
+        assert approach_flank_y == pytest.approx(clearance, abs=1e-9)

@@ -43,18 +43,24 @@ pytest node ID exists.
 
 | Status | EXIT contracts |
 |---|---|
-| Implemented | 0.1–0.7, 0.9, 0.10, 0.15 |
+| Implemented | 0.1–0.7, 0.9, 0.10, 0.12, 0.13, 0.15 |
 | Planned: Stage 1 dependency | 0.8; 0.14(c) |
 | Implemented clauses | 0.14(a), 0.14(b) |
-| Planned: full stress ledger required | 0.11 |
-| Planned: protocol text requires revision | 0.12, 0.13 |
+| Planned: full stress evidence required | 0.11 |
 
-EXIT-0.11 has CI-scale random and saturation-corner evidence, but not the literal
-`10^6 × 400 × 5` run and its evidence ledger. EXIT-0.12 cannot be closed literally because a smooth
-potential with a minimum at zero necessarily has gradient tending to zero near zero; the implemented
-potential does remove the plateau at π. EXIT-0.13 has corrected whole-sweep/row-clipped evidence,
-but its literal text first clips to `y <= 0` and then requires a positive whole-manoeuvre `max_y`; its
-Cartesian grid also contains physically infeasible width/clearance pairs.
+EXIT-0.12 and EXIT-0.13 were revised in plan v1.5 (see `PLAN_MACRO.md` appendix): the literal
+v1.2 heading criterion is impossible for any smooth minimum, and the v1.3 sweep criterion clipped
+before measuring `max_y` and listed infeasible grid cells. EXIT-0.14(c) now states that its 4.3519 m
+upper end finishes 0.2024 m off the bay centreline.
+
+EXIT-0.11 evidence comes from `parking-governance exit-0-11-stress configs/reference.json`, which
+drives the production dynamics over 10^6 × 400 × 5 substeps in independently seeded chunks
+(identical results for any worker count on one platform; final-state digests differ across
+platforms at libm ULP level) and includes a real clamp-disabled positive control. CI runs a small
+instance.
+
+Explanations of the model and the parking geometry, with sources, are in [`learn/`](learn/), and
+the independent derivations behind them are in `research/stage0-derivations/`.
 
 Run all Stage 0 evidence with:
 

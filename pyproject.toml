@@ -35,6 +35,7 @@ addopts = "-ra --strict-markers"
 testpaths = ["tests"]
 
 [tool.ruff]
+extend-exclude = ["research"]
 line-length = 100
 target-version = "py311"
 

@@ -31,6 +31,9 @@ Stage 0 provides a deterministic rear-axle kinematic bicycle, explicit Euler int
 substeps per policy action, actuator/state clamps, exact OBB SAT and signed distance, bounded swept
 collision checks, analytic parking-geometry checks, directed success semantics, and bitwise episode
 replay. See [`docs/stage0-physics.md`](docs/stage0-physics.md) for contracts and EXIT status.
+For a guided explanation of the vehicle model and the deterministic parking geometry, with
+sources, read [`docs/learn/vehicle-model.md`](docs/learn/vehicle-model.md) and
+[`docs/learn/deterministic-parking.md`](docs/learn/deterministic-parking.md).
 
 Trajectory rendering is an optional dependency:
 

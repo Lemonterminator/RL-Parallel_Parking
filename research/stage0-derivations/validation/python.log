@@ -1,0 +1,80 @@
+UTC 2026-10-19T12:56:38.962742
+d01_turning_radius.py exit=0
+PASS SymPy identities; solve_ivp four sign combinations
+{"R_min": 3.946579057110876, "max_integration_error": 5.828759697124042e-11, "rotation": {"v=-1.5,delta=-0.6": "CCW", "v=-1.5,delta=0.6": "CW", "v=1.5,delta=-0.6": "CW", "v=1.5,delta=0.6": "CCW"}}
+
+d02_euler_circle.py exit=0
+PASS SymPy circle / recurrence / series; NumPy trajectory and 3000 closure cases
+{"N": 827, "alpha": 0.00760152009268547, "chord_length_error": 7.222883247753886e-08, "circle_radial_max_error": 2.6645352591003757e-15, "closure": 0.01291248006737435, "closure_bound": 0.045, "closure_formula_error": 2.0469737016526324e-16, "euler_radius": 3.9465885590270053, "one_step_endpoint_error": 0.00011402261837401372, "physical_radius": 3.946579057110876, "random_max_closure_step_ratio": 0.49990720477944717}
+
+d03_s_curve.py exit=0
+PASS SymPy integration and eliminated-angle identity; SciPy S-curve grid
+{"example_R": 3.946579057110876, "example_d": 2.0, "example_longitudinal": 5.250964907222958, "grid_cases": 403, "max_coordinate_error": 4.1673331452329876e-12, "stationary_pose_error": 0.0, "stationary_steering_switch_seconds": 2.0}
+
+d04_parallel_parking.py exit=0
+SymPy: 15 simplify(lhs-rhs)==0 assertions PASS
+Declared model: same-width parked cars, curb y=0, final clearance c=0.2 m;
+two reverse arcs, R=R_min, lateral shift d=2.5 m, unbounded car lengths.
+Four corner radii [front-right, front-left, rear-right, rear-left] [m]:
+[6.057415497527084, 4.69999361684365, 4.9942249158083865, 3.2155777083396773]
+alpha [degree]: 46.900296422776535
+Front obstacle x boundary [m]: 5.249985001056
+Rear obstacle x boundary [m]: -1.100000000000
+Conditional minimum slot length [m]: 6.349985001056
+Minimum final curb clearance for this full tail swing [m]: 0.122645858698
+Swept y range [m]: 0.07735414130248852 5.735836440416207
+First arc front cap analytic upper bound [m]: 3.8910020536929935
+Traffic-side height analytic error [m]: 8.882e-16
+Shapely front/rear boundary max errors [m]: 0.000e+00 0.000e+00
+NumPy circle invariant max error [m^2]: 2.132e-14
+SciPy contact root max error [m]: 4.441e-15
+All numerical assertions PASS. This is a conditional ideal-arc result,
+not a unique minimum for the underspecified original scenario.
+
+d05_obb_distance.py exit=0
+PASS SymPy projection identity; Shapely distance / Minkowski penetration oracle
+{"contained": 21, "containment_signed_distance": -3.0, "examples": [{"SAT_gap": 1.0, "distance": 1.4142135623730951, "rotation_deg": 0.0, "shapely": 1.4142135623730951}, {"SAT_gap": 1.422569146167366, "distance": 1.476794548216601, "rotation_deg": 20.0, "shapely": 1.4767945482166012}], "max_error": 1.7763568394002505e-15, "overlap": 697, "random_cases": 2000, "separated": 1303}
+
+d06_three_circles.py exit=0
+PASS SymPy corner equalities; analytic interval-square proof in report and Lean
+{"centers": [-0.31666666666666676, 1.25, 2.8166666666666664], "corner_max_radius_error": 2.220446049250313e-16, "max_squared_excess": 6.661338147750939e-16, "radius": 1.2121205018937313, "radius_squared": 1.4692361111111112, "samples": 200008}
+
+d07_ccd_bound.py exit=0
+PASS SymPy rotation norm identity; NumPy displacement bound; finite-wall grazing counterexample
+{"actual_euler_corner_max": 0.046113194980407335, "actual_exact_arc_corner_max": 0.04604545475361499, "alpha": 0.00760152009268547, "corner_displacement_bound": 0.05825437572460644, "d_max": 3.716937583549124, "euler_interpolation_grazing_penetration": 1.0385730870199339e-05, "forward_euler_corner_max": 0.04597766479643673, "four_sign_euler_maxima": {"v=-1.5,delta=-0.6": 0.046113194980407335, "v=-1.5,delta=0.6": 0.046113194980407335, "v=1.5,delta=-0.6": 0.04597766479643673, "v=1.5,delta=0.6": 0.04597766479643673}, "full_crossing_sufficient_wall_thickness_strictly_greater_than": 0.05825437572460644, "random_max_excess": -6.314349084643456e-07, "rotation_norm_identity_max_error": 1.0408340855860843e-17, "thick_wall_grazing_penetration": 2.1875991927642587e-05, "translation": 0.03, "universal_min_wall_thickness": null}
+
+d08_heading_potential.py exit=0
+PASS SymPy derivative / limits / wrap cusp; NumPy finite differences and valid interval bound
+{"derivative_at_1e_6": 2.4999999999998956e-07, "derivative_at_pi_over_2": 0.3535533905932738, "epsilon_deg": 10, "finite_difference_max_error": 1.4849527163462994e-10, "left_derivative_at_pi": 0.5, "near_pi_lower_bound": 0.4980973490458728, "near_pi_lower_bound_numeric_error": 0.0, "right_derivative_at_pi": -0.5}
+
+d09_reverse_bay.py exit=0
+SymPy: 18 simplify(lhs-rhs)==0 assertions PASS
+NumPy/Shapely cap width max error [m]: 1.776e-15
+Shapely endpoint positive-depth cap width max error [m]: 2.220e-16
+Shapely negative-depth empty-clip max error [m]: 0.000e+00
+h=0 uses a closed-set contact edge at endpoint angles; horizontal
+cap_depth=0 for g<ell is an unattained supremum from h<0.
+Shapely+SciPy cap depth max error [m]: 3.619e-14
+SciPy optimization value error [m]: 4.441e-16
+D grid envelope variation [m]: 0.000e+00
+Analytic depth max formula/grid max error [m]: 4.593e-09
+Wide-mouth counterexample to unrestricted D-invariance [m]: 0.3509900019699108
+Static mouth-clipped lower bound [m]: 3.510010816389
+Corresponding psi [degree]: 53.037061785717
+Corresponding cap depth h [m]: 1.357806785527
+Strict fixed-target quarter-arc R required [m]: 24.487500000000
+Strict fixed-target quarter-arc aisle A [m]: 21.766225983771
+Strict quarter-arc mouth x range [m]: -0.9487960403042948 1.249999999999999
+Strict quarter-arc Shapely extrema max error [m]: 3.553e-15
+SciPy rear-axle IVP max error [m]: 4.313e-12
+R_min arc initial rear y and body bottom [m]: 0.046579057110875954 -0.8784209428891241
+Arc plus straight optimal R [m]: 3.946579057111
+Arc plus straight arc-end rear depth b [m]: 1.363231963799
+Arc plus straight minimum aisle A [m]: 4.694183533729
+Arc plus straight derivative at R_min: 0.565829893265
+SciPy bounded optimization aisle error [m]: 4.240e-08
+Arc plus straight Shapely swept mouth x range [m]: -1.0476458586975113 1.2499999999999998
+Arc plus straight Shapely extrema max error [m]: 6.661e-16
+Arc plus straight stop before straightening; finite steering rate
+is compatible with this geometry by steering while v=0.
+All numerical assertions PASS; c=0 used only for numerical examples.
