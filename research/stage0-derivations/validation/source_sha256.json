@@ -1,0 +1,14 @@
+{
+  "scripts/d01_turning_radius.py": "a2b553d04ae9d1882c4b167b836e3ac4cf9bd5e60d0656bc28c165dd9aae22ef",
+  "scripts/d02_euler_circle.py": "534b8909904e6e1981bb31c7d2f55e2a52dc01802ab69123c7a55978d9a7cd6c",
+  "scripts/d03_s_curve.py": "39fc57eb68aee7c89d992f539e013979d08c382ffed6495f8a3b27816f2d633c",
+  "scripts/d04_parallel_parking.py": "d5a5871373674e583ec88443b7b47e4e3551e991b7b37b8d7d2ec352aadfbc57",
+  "scripts/d05_obb_distance.py": "e96d4a617f49349cc3b0f75e7c0ecc17edf06ecdc3a9138f8495911066c1c15b",
+  "scripts/d06_three_circles.py": "3027bd15b70ba2c4e0329fbcf7e8123708a120f7a11b4cdf1e634fa9b7909b21",
+  "scripts/d07_ccd_bound.py": "6b31b023409bee5a7fabd7dad5017ca88e68979c5eb13e5b0dcd74c0f42b8a48",
+  "scripts/d08_heading_potential.py": "f2bcb13f37b5c63eb5a2d9308f424b86dd6c3d11e3a9a109b0057f5d0e6b5ec4",
+  "scripts/d09_reverse_bay.py": "a11a77c28b67c0ef211bd4105f46613801b444d4a653847736159a8dc7262957",
+  "lean/D06ThreeCircleCover.lean": "f2858d142caab4c3b9a80497d02bd4f2635509dd483795f171ac3636d56436b7",
+  "lean/D07RigidDisplacement.lean": "6b774656994a575f0e18d7d01b7b11710442820d16b9bf094e5373105426c6ad",
+  "lean/D08HeadingPotential.lean": "27a9708a719dedddef1c65cb888981887e8192e5c90b45a1ba5898a846821253"
+}

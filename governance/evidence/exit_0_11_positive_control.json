@@ -1,0 +1,48 @@
+{
+  "ccd_audit": {
+    "max_conservative_bound_m": 0.05602617233822538,
+    "max_exact_corner_motion_m": 0.04438072427456376,
+    "max_samples_conservative_bound": 3,
+    "max_samples_exact_corner_motion": 2,
+    "mean_samples_conservative_bound": 1.177340694731999,
+    "mean_samples_exact_corner_motion": 1.0965723487462617,
+    "substeps": 43470
+  },
+  "clamps_disabled": true,
+  "config_sha256": "45fcb2ca5c3e8a0bb15360ec5fa3530c51af5dea5e9a1d5026c7c067cc36968d",
+  "final_state_sha256": "20cdc5e91d5a43d279eded817f9cc62c089a1ea07b3f444259c48cc5ff3db97b",
+  "integrator_guard_trips": 9740,
+  "latency_sequences": [
+    3303,
+    3310,
+    3387
+  ],
+  "max_value_over_limit": {
+    "speed": 1.058424701067891,
+    "speed_step": 2.9999952490545807,
+    "steering_angle": 1.0583425278523897,
+    "steering_step": 2.9998029234902455
+  },
+  "raw_control_sequences": 1038,
+  "saturation_sequences": 438,
+  "seconds": 3.0,
+  "sequences": 10000,
+  "spec": {
+    "base_seed": 20261019,
+    "ccd_audit_every": 100,
+    "chunk_size": 1000,
+    "policy_steps": 400,
+    "raw_control_fraction": 0.1,
+    "saturation_fraction": 0.04,
+    "sequences": 10000
+  },
+  "substeps": 3883057,
+  "total_violations": 92150,
+  "violations": {
+    "speed": 1649,
+    "speed_step": 44807,
+    "steering_angle": 1687,
+    "steering_step": 44007
+  },
+  "workers": 32
+}

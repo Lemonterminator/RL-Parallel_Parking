@@ -168,9 +168,9 @@
     "EXIT-0.8": "planned",
     "EXIT-0.9": "implemented",
     "EXIT-0.10": "implemented",
-    "EXIT-0.11": "planned",
-    "EXIT-0.12": "planned",
-    "EXIT-0.13": "planned",
+    "EXIT-0.11": "implemented",
+    "EXIT-0.12": "implemented",
+    "EXIT-0.13": "implemented",
     "EXIT-0.14": "planned",
     "EXIT-0.15": "implemented"
   },
@@ -207,6 +207,19 @@
       "tests/physics/test_geometry.py::test_exit_0_10_vehicle_footprint_is_placed_from_rear_axle",
       "tests/physics/test_geometry.py::test_exit_0_10_rotated_vehicle_matches_hand_computed_rear_axle_footprint"
     ],
+    "EXIT-0.11": [
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_random_clamp_smoke",
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_stress_harness_and_real_positive_control",
+      "tests/physics/test_dynamics.py::test_four_corner_saturation_respects_bounds_at_every_substep"
+    ],
+    "EXIT-0.12": [
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_12_no_stationary_point_outside_success_and_bounded_slope_near_pi",
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_12_positive_control_rejects_full_angle_plateau"
+    ],
+    "EXIT-0.13": [
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_13_closed_form_matches_explicit_swept_body",
+      "tests/exit_criteria/test_stage0_exit.py::test_exit_0_13_branch_identities"
+    ],
     "EXIT-0.15": [
       "tests/physics/test_success.py::test_reverse_bay_goal_footprint_has_expected_clearances",
       "tests/physics/test_success.py::test_success_uses_directed_heading_and_rejects_nose_in"
@@ -234,29 +247,8 @@
     "EXIT-0.8": {
       "reason": "The required numerical bisection depends on the Stage-1 single-cusp Hybrid A* planner."
     },
-    "EXIT-0.11": {
-      "reason": "CI runs a random smoke test and all four saturation corners, but the literal 10^6 sequences x 400 policy steps x 5 substeps stress ledger has not been executed.",
-      "tests": [
-        "tests/exit_criteria/test_stage0_exit.py::test_exit_0_11_random_clamp_smoke_and_positive_control",
-        "tests/physics/test_dynamics.py::test_four_corner_saturation_respects_bounds_at_every_substep"
-      ]
-    },
-    "EXIT-0.12": {
-      "reason": "The literal gradient > 0.1 for every error in (0, pi] contradicts any differentiable potential with a minimum at zero; the adopted half-angle potential removes the pi plateau but necessarily tends to zero gradient near its minimum.",
-      "tests": [
-        "tests/reward/test_heading.py::test_half_angle_cost_has_no_pi_plateau",
-        "tests/reward/test_heading.py::test_literal_exit_0_12_threshold_is_contradicted_near_zero"
-      ]
-    },
-    "EXIT-0.13": {
-      "reason": "The literal text clips the sweep to y <= 0 and then requires a positive whole-manoeuvre max_y; it also includes infeasible width/clearance grid cells. Corrected sweep evidence is checked, but the protocol text needs human revision before closure.",
-      "tests": [
-        "tests/physics/test_bay_geometry.py::test_single_cut_design_grid_and_explicit_sweep",
-        "tests/physics/test_bay_geometry.py::test_sweep_positive_control_detects_incursion_when_u_is_too_large"
-      ]
-    },
     "EXIT-0.14": {
-      "reason": "Clauses (a) and (b) are implemented; clause (c) requires Stage-1 Hybrid A* bisection."
+      "reason": "Clauses (a) and (b) are implemented; clause (c) requires Stage-1 Hybrid A* bisection. Its 4.3519 m upper end is the single-cut boundary with final rear-axle x = -0.2024 m; a centred single cut needs 4.6942 m, so (c) assumes a lateral success tolerance of at least 0.25 m (plan v1.4)."
     }
   }
 }
