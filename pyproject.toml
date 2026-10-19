@@ -14,9 +14,14 @@ authors = [{ name = "Lemonterminator" }]
 dependencies = []
 
 [project.optional-dependencies]
+replay = [
+  "matplotlib>=3.9",
+]
 dev = [
+  "numpy>=2.1",
   "pytest>=8.3,<10",
   "ruff>=0.9",
+  "shapely>=2.0",
 ]
 
 [project.scripts]

@@ -1,9 +1,8 @@
 # RL-Parallel_Parking
 
-Reproducible reinforcement-learning research for parallel parking and reverse-bay parking.
-
-The repository is currently in its specification and governance bootstrap phase. The research plan
-lives in [`PLAN_MACRO.md`](PLAN_MACRO.md), with stage-specific contracts under [`stages/`](stages/).
+Reproducible reinforcement-learning research for parallel parking and reverse-bay parking. The
+research plan lives in [`PLAN_MACRO.md`](PLAN_MACRO.md), with stage-specific contracts under
+[`stages/`](stages/).
 
 ## Governance bootstrap
 
@@ -25,3 +24,19 @@ pytest
 See [`docs/governance.md`](docs/governance.md) for the operating rules.
 The immutable state, scenario, observation, and episode-boundary interfaces are documented in
 [`docs/core-contracts.md`](docs/core-contracts.md).
+
+## Stage 0 physics kernel
+
+Stage 0 provides a deterministic rear-axle kinematic bicycle, explicit Euler integration with five
+substeps per policy action, actuator/state clamps, exact OBB SAT and signed distance, bounded swept
+collision checks, analytic parking-geometry checks, directed success semantics, and bitwise episode
+replay. See [`docs/stage0-physics.md`](docs/stage0-physics.md) for contracts and EXIT status.
+
+Trajectory rendering is an optional dependency:
+
+```powershell
+python -m pip install -e ".[replay]"
+```
+
+The reading, hand derivations, research decisions, and visual checks that still require a human are
+tracked in [`docs/stage0-human-work.md`](docs/stage0-human-work.md).
