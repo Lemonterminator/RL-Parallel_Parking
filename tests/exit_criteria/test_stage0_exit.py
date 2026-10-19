@@ -10,6 +10,11 @@ import shapely
 from parking_rl.core.actions import PhysicalControl
 from parking_rl.core.frames import RearAxleWorldPose
 from parking_rl.core.state import EgoState, VehicleSpec
+from parking_rl.governance.clamp_stress import (
+    StressSpec,
+    dynamics_clamps_are_disabled,
+    run_stress,
+)
 from parking_rl.physics.dynamics import integrate_substep
 from parking_rl.physics.geometry import OBB, obb_corners, obb_signed_distance, sat_overlap
 
@@ -137,7 +142,7 @@ def test_exit_0_3_signed_distance_matches_independent_reference_10k() -> None:
     assert maximum_error <= 1e-6
 
 
-def test_exit_0_11_random_clamp_smoke_and_positive_control() -> None:
+def test_exit_0_11_random_clamp_smoke() -> None:
     """CI-scale evidence only; it does not claim the 10^6-sequence EXIT threshold."""
 
     generator = random.Random(11)
@@ -162,5 +167,28 @@ def test_exit_0_11_random_clamp_smoke_and_positive_control() -> None:
                     vehicle.max_steering_rate_radps * dt_sub_s + 1e-12
                 )
 
-    unclamped_steering = 400 * 5 * vehicle.max_steering_rate_radps * dt_sub_s
-    assert unclamped_steering > vehicle.max_steering_angle_rad
+
+def test_exit_0_11_stress_harness_and_real_positive_control() -> None:
+    """CI-scale run of the EXIT-0.11 harness; the 10^6 run is recorded as evidence."""
+
+    spec = StressSpec(
+        sequences=24,
+        chunk_size=12,
+        saturation_fraction=0.5,
+        raw_control_fraction=0.25,
+        ccd_audit_every=6,
+    )
+    vehicle = _vehicle()
+    clamped, _ = run_stress(spec, vehicle)
+    assert clamped.sequences == 24
+    assert clamped.saturation_sequences > 0
+    assert clamped.raw_control_sequences > 0
+    assert sum(clamped.violations.values()) == 0
+    assert clamped.guard_trips == 0
+    assert max(clamped.max_ratio.values()) <= 1.0 + 1e-9
+    assert clamped.ccd_max_bound_m >= clamped.ccd_max_exact_m
+    assert run_stress(spec, vehicle)[0].digest == clamped.digest
+
+    unclamped, _ = run_stress(spec, vehicle, disable_clamps=True)
+    assert sum(unclamped.violations.values()) > 0
+    assert not dynamics_clamps_are_disabled()
