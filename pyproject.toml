@@ -17,7 +17,14 @@ dependencies = []
 replay = [
   "matplotlib>=3.9",
 ]
+rl = [
+  "gymnasium>=1.0",
+  "numpy>=2.1",
+  "stable-baselines3>=2.4",
+  "torch>=2.5",
+]
 dev = [
+  "gymnasium>=1.0",
   "numpy>=2.1",
   "pytest>=8.3,<10",
   "ruff>=0.9",
