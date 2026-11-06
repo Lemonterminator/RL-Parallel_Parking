@@ -172,7 +172,10 @@
     "EXIT-0.12": "implemented",
     "EXIT-0.13": "implemented",
     "EXIT-0.14": "planned",
-    "EXIT-0.15": "implemented"
+    "EXIT-0.15": "implemented",
+    "EXIT-1.1": "implemented",
+    "EXIT-1.2": "implemented",
+    "EXIT-1.3": "implemented"
   },
   "tests": {
     "EXIT-0.1": [
@@ -223,6 +226,17 @@
     "EXIT-0.15": [
       "tests/physics/test_success.py::test_reverse_bay_goal_footprint_has_expected_clearances",
       "tests/physics/test_success.py::test_success_uses_directed_heading_and_rejects_nose_in"
+    ],
+    "EXIT-1.1": [
+      "tests/exit_criteria/test_stage1_exit.py::test_exit_1_1_reeds_shepp_metric_axioms_100k_pairs",
+      "tests/exit_criteria/test_stage1_exit.py::test_exit_1_1_reeds_shepp_identity_and_triangle_inequality_20k_triples",
+      "tests/planning/test_reeds_shepp.py::test_metric_tests_are_sensitive_to_a_missing_family"
+    ],
+    "EXIT-1.2": [
+      "tests/exit_criteria/test_stage1_exit.py::test_exit_1_2_reeds_shepp_never_longer_than_dubins_and_dubins_asymmetry"
+    ],
+    "EXIT-1.3": [
+      "tests/exit_criteria/test_stage1_exit.py::test_exit_1_3_reeds_shepp_control_sequence_reaches_goal_10k"
     ]
   },
   "clause_statuses": {
