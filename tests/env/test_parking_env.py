@@ -2,16 +2,19 @@ from __future__ import annotations
 
 import math
 import random
+from pathlib import Path
 
 import numpy as np
 import pytest
 from gymnasium.utils.env_checker import check_env
 
 from parking_rl.core.actions import NormalizedAction
+from parking_rl.core.config import load_reference_config
 from parking_rl.core.frames import RearAxleWorldPose
 from parking_rl.core.state import EgoState
 from parking_rl.env import SMOKE_REWARD, ParallelParkingEnv
 from parking_rl.env.reward import running_costs
+from parking_rl.physics.success import success_candidate
 
 
 def test_env_passes_gymnasium_checker() -> None:
@@ -117,3 +120,44 @@ def test_goal_pose_has_zero_clearance_penalty_and_maximal_potential() -> None:
     assert phi_goal == 0.0
     off = EgoState(RearAxleWorldPose(0.5, -0.5, math.radians(10)), 0.0, 0.0)
     assert env._potential(env._initial_world(off))[0] < 0.0
+
+
+REFERENCE_CONFIG = Path(__file__).resolve().parents[2] / "configs" / "reference.json"
+
+
+def test_exit_0_16_env_step_advances_and_resets_settle_from_success_candidate() -> None:
+    """EXIT-0.16 (A22): every step sets settle from success_candidate, and O0 exposes count/K."""
+
+    env = ParallelParkingEnv()
+    obs, _ = env.reset(
+        seed=0, options={"initial_ego": EgoState(RearAxleWorldPose(0.0, 0.0, 0.0), 0.0, 0.0)}
+    )
+    index = env.layout.field_names.index("ego.settle_progress_fraction")
+    assert obs[index] == 0.0
+    # Rest at the goal for K - 2 steps, then drive off: the counter must climb, then clear to 0.
+    actions = [np.zeros(2)] * (env.settle_steps - 2) + [np.array([1.0, 0.0])] * 3
+    expected = 0
+    saw_reset = False
+    for action in actions:
+        obs, _, terminated, truncated, _ = env.step(action.astype(np.float32))
+        world = env._world
+        assert world is not None
+        candidate = success_candidate(world.ego, env.scene.goal, env.tolerance)
+        previous = expected
+        expected = min(expected + 1, env.settle_steps) if candidate else 0
+        saw_reset |= previous > 0 and expected == 0
+        assert world.settle.count == expected
+        assert world.settle.required_steps == env.settle_steps
+        assert obs[index] == pytest.approx(expected / env.settle_steps)
+        assert not terminated and not truncated
+    assert saw_reset, "positive control: driving off the goal must clear the settle counter"
+
+
+def test_exit_0_16_settle_window_has_one_source() -> None:
+    """EXIT-0.16 (A22): K_settle in configs/reference.json, the env and the world state agree."""
+
+    k_settle = load_reference_config(REFERENCE_CONFIG).task.settle_policy_steps
+    env = ParallelParkingEnv()
+    env.reset(seed=0)
+    assert env._world is not None
+    assert k_settle == env.settle_steps == env._world.settle.required_steps == 5

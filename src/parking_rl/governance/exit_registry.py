@@ -12,7 +12,7 @@ class ExitRegistryError(ValueError):
     """Raised when the EXIT registry does not cover the roadmap exactly."""
 
 
-_EXIT_COUNTS = {"0": 15, "1": 14, "2": 29, "3": 11, "4": 12, "6": 5}
+_EXIT_COUNTS = {"0": 16, "1": 14, "2": 29, "3": 11, "4": 12, "6": 5}
 EXPECTED_EXIT_IDS = frozenset(
     f"EXIT-{stage}.{index}"
     for stage, count in _EXIT_COUNTS.items()

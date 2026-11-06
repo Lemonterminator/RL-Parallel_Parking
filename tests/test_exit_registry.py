@@ -12,7 +12,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 
 def test_checked_in_registry_covers_all_roadmap_exit_contracts():
-    assert validate_exit_registry(ROOT / "contracts" / "exit_registry.json") == 86
+    assert validate_exit_registry(ROOT / "contracts" / "exit_registry.json") == 87
 
 
 def test_missing_exit_contract_is_rejected(tmp_path):

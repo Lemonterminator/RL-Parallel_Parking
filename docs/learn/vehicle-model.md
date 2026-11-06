@@ -242,6 +242,6 @@ r₃ = √(l²/36 + w²/4) = 1.212121 m，   圆心 x = −0.3167, 1.25, 2.8167 
 | `[C]` | Rajamani, R. *Vehicle Dynamics and Control*, Ch. 2 | Ackermann 几何、ICR、后轴与质心参考 |
 | `[?]` | Ericson, C. (2005). *Real-Time Collision Detection*, Ch. 4–5 | SAT、OBB、最近点 |
 | [本项目] | `research/stage0-derivations/`（报告、脚本、Lean） | 上文所有推导与数值 |
-| [本项目] | `stages/PLAN_S0.md` §5.0 与 EXIT-0.1–0.15（v1.5） | 判据原文与修订理由 |
+| [本项目] | `stages/PLAN_S0.md` §5.0 与 EXIT-0.1–0.16（v1.6） | 判据原文与修订理由 |
 
 按项目规则，`[?]` 文献在打开原文核实前不得在论文中引用。

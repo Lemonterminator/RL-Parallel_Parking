@@ -58,7 +58,8 @@ Specific Stage-1 dependencies on these artefacts, traced through §5.1's own tex
   to be meaningful: "An environment that lets `δ` drift gives the RL car a turning radius smaller
   than `R_min`... a capability Reeds–Shepp, Hybrid A\* and the tracked expert all lack." [EXIT-0.11]
 - **The bay closed form (EXIT-0.13, EXIT-0.14, EXIT-0.15)** supplies the analytic bracket
-  `[3.5100, 4.3519]` that Stage 1's Hybrid A\* is cross-checked against, and the goal-pose /
+  `[3.5100, 4.5122]` (at the `eps_final` lateral tolerance 0.10 m; v1.6) that Stage 1's Hybrid A\* is
+  cross-checked against, and the goal-pose /
   nose-in-rejection test the bay family's success test must satisfy. [EXIT-0.13, EXIT-0.14,
   EXIT-0.15]
 

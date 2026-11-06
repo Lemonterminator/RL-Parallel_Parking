@@ -50,5 +50,5 @@ After installing `.[replay]`, record and inspect the following trajectories fram
 ## 5. Work That Can Only Be Completed in Stage 1
 
 - [ ] EXIT-0.8: numerically bisect the minimum parallel-parking-slot curve with single-cusp Hybrid A*.
-- [ ] EXIT-0.14(c): with `W_bay=2.50`, use Hybrid A* to bisect `W_aisle`; the result must lie in `[3.5100, 4.3519]`.
+- [ ] EXIT-0.14(c): with `W_bay=2.50`, use Hybrid A* to bisect `W_aisle`; at the `eps_final` lateral tolerance of 0.10 m the result must lie in `[3.5100, 4.5122]` (plan v1.6).
 - [ ] Validate the steering-rate-limited feasibility of the S-curve (EXIT-1.8) and use the planner as the operational bay-feasibility oracle.

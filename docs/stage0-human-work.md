@@ -50,5 +50,5 @@
 ## 5. Stage 1 才能完成
 
 - [ ] EXIT-0.8：用 single-cusp Hybrid A* 对平行泊车最小车位曲线做数值二分验证。
-- [ ] EXIT-0.14(c)：在 `W_bay=2.50` 时用 Hybrid A* 二分 `W_aisle`，结果必须落在 `[3.5100, 4.3519]`。
+- [ ] EXIT-0.14(c)：在 `W_bay=2.50` 时用 Hybrid A* 二分 `W_aisle`，在 `eps_final` 横向容差 0.10 m 下结果必须落在 `[3.5100, 4.5122]`（plan v1.6）。
 - [ ] 验证受 steering-rate 限制的 S 曲线可执行性（EXIT-1.8），并把 planner 作为实际 bay feasibility oracle。

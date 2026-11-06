@@ -75,8 +75,9 @@ uses without redefining.
   [EXIT-0.11] — the plan states explicitly this is what stops the RL car from having "a turning
   radius smaller than `R_min = 3.9466 m` — a capability Reeds–Shepp, Hybrid A\* and the tracked
   expert all lack," which would otherwise inflate Stage 2's own success numbers. [EXIT-0.11]
-- **EXIT-0.12 (The heading potential has no gradient plateau)** — `|dΦ_heading/dΔθ| > 0.1` for all
-  `Δθ ∈ (0,π]`. [EXIT-0.12] — this is what makes the `w_th = 10.50` calibration Stage 2's Φ uses
+- **EXIT-0.12 (The heading potential has no gradient plateau)** — *(revised v1.5)* `dΦ_heading/dΔθ > 0`
+  on `(e_tol, π]` and a left slope `≥ ½·cos(ε/2)` on `[π − ε, π]`, `ε = 10°` (the v1.2 wording
+  `|dΦ_heading/dΔθ| > 0.1` for all `Δθ ∈ (0,π]` is impossible for a smooth minimum). [EXIT-0.12] — this is what makes the `w_th = 10.50` calibration Stage 2's Φ uses
   (§7.2, read in full as context) legitimate; the test itself lives in Stage 0, not Stage 2. [EXIT-0.12]
   [§7.2]
 - **RS closed form, collision-checked path validator, feasibility oracle, `h_nhwo`/`h_hwo`, Hybrid
