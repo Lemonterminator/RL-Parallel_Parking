@@ -207,7 +207,7 @@ def test_exit_0_11_stress_harness_and_real_positive_control() -> None:
 def test_exit_0_12_no_stationary_point_outside_success_and_bounded_slope_near_pi(
     success_tolerance_rad: float,
 ) -> None:
-    """EXIT-0.12 (v1.4): no stationary point outside the success tolerance on the
+    """EXIT-0.12 (v1.5): no stationary point outside the success tolerance on the
     positive branch, and a left slope of at least cos(eps/2)/2 on [pi - eps, pi]."""
 
     errors = np.linspace(success_tolerance_rad, math.pi, 200_001)
@@ -251,7 +251,7 @@ _EXIT_0_13_CLEARANCES = (0.0, 0.10, 0.25)
 def test_exit_0_13_closed_form_matches_explicit_swept_body(
     mouth: float | None, clearance: float
 ) -> None:
-    """EXIT-0.13 (v1.4): max_y over the whole sweep; x extents of the y <= 0 clip."""
+    """EXIT-0.13 (v1.5): max_y over the whole sweep; x extents of the y <= 0 clip."""
 
     vehicle = _vehicle()
     mouth_width = vehicle.width_m if mouth is None else mouth

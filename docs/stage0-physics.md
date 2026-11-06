@@ -49,8 +49,9 @@ pytest node ID exists.
 
 EXIT-0.12 and EXIT-0.13 were revised in plan v1.5 (see `PLAN_MACRO.md` appendix): the literal
 v1.2 heading criterion is impossible for any smooth minimum, and the v1.3 sweep criterion clipped
-before measuring `max_y` and listed infeasible grid cells. EXIT-0.14(c) now states that its 4.3519 m
-upper end finishes 0.2024 m off the bay centreline.
+before measuring `max_y` and listed infeasible grid cells. Plan v1.6 makes the EXIT-0.14(c) upper end
+a function of the lateral goal tolerance `t`: 4.6942 m at `t = 0`, 4.5122 m at the `eps_final`
+`t = 0.10`, and 4.3519 m (finishing 0.2024 m off the bay centreline) for `t ≥ 0.2024`.
 
 EXIT-0.11 evidence comes from `parking-governance exit-0-11-stress configs/reference.json`, which
 drives the production dynamics over 10^6 × 400 × 5 substeps in independently seeded chunks

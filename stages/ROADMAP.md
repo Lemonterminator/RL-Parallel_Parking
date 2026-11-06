@@ -168,7 +168,9 @@ all.** It is now derived, in closed form, and machine-checked. [§0.4]
   (3.0358 m) from a different direction. Validated against an explicit 40 001-sample swept body to
   **1e-10 m**.
 - **A static containment lower bound valid for any number of cuts** — 3.5100 m at `psi = 53.0°` for
-  the reference bay — bracketing the true boundary in **[3.5100, 4.3519]**.
+  the reference bay — bracketing the true boundary in **[3.5100, 4.5122]** at the `eps_final`
+  lateral tolerance of 0.10 m *(v1.6; v1.3–v1.5 wrote 4.3519, which holds only for a lateral
+  tolerance ≥ 0.2024 m)*.
 - **§4** — a `BAY SCENE` block: `W_bay = 2.50`, `D_bay = 5.30`, `W_aisle = 6.00`, `c_end = 0.30`,
   goal pose `(0, −3.90, +π/2)`, plus the derived quantities.
 - **A27** (`W_gap` is declared, not derived — the wall vs. neighbour-car model is worth 0.69 m of
@@ -1107,9 +1109,11 @@ reachable; monotone on `(−π, π)`; still a pure state function, so still exac
 changes: `1 − cos(Δθ/2) ≤ 1` (not 2) at `Δθ = π`, but with `w_th` 4× larger the heading contribution
 to `|Φ(s₀)|` is `w_th·1 = 10.50`, not 5.25.
 
-**Add to the Stage-0 tests:** assert `|dΦ_heading/dΔθ| > 0.1` for **all** `Δθ ∈ (0, π]` under
-whichever form is adopted. That single assertion catches both this class of error and any future
-"improvement" that reintroduces a plateau. *(This is EXIT-0.12, owned by the Stage-0 file.)*
+**Add to the Stage-0 tests** *(revised v1.5, text updated v1.6)*: under whichever form is adopted,
+assert `dΦ_heading/dΔθ > 0` on `(e_tol, π]` (no stationary point outside the success tolerance) and a
+left slope `≥ ½·cos(ε/2)` on `[π − ε, π]` with `ε = 10°`. The v1.2 wording, `|dΦ/dΔθ| > 0.1` on **all**
+of `(0, π]`, is impossible for any potential with a smooth minimum at 0. These assertions catch both
+this class of error and any future "improvement" that reintroduces a plateau. *(This is EXIT-0.12, owned by the Stage-0 file.)*
 [§7.3, in full]
 
 ### 7.4 Non-potential terms and the farmability rule
